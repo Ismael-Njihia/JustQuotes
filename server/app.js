@@ -1,9 +1,11 @@
 const express = require('express');
 const mysql = require('mysql2');
+const cors = require('cors');
+
 const bodyParser = require('body-parser');
 
 const app = express();
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 8080;
 
 //Create MYSQL connection
 const connection = mysql.createConnection({
@@ -35,6 +37,11 @@ connection.query(createUserTableQuery, (err, result) => {
     }
     console.log('Users table created or already exists');
 });
+
+//Enable CORS
+app.use(cors({
+    origin: 'http://localhost:3000'
+}));
 
 //middleware to parse request body
 app.use(bodyParser.urlencoded({extended: true}));
