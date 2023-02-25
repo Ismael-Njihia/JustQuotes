@@ -1,11 +1,15 @@
 import React, {useState} from 'react'
-import { signup } from '../api'
+import { signup } from '../api';
+import {useNavigate} from 'react-router-dom';
+
 
 const SignupForm = () => {
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const navigate = useNavigate();
+    
 
     const handleSignup = async (event)=>{
         event.preventDefault();
@@ -14,6 +18,17 @@ const SignupForm = () => {
             const userData = {firstName, lastName, email, password};
             const response = await signup(userData);
             console.log(response)
+            //check for the response
+
+            if(response.status === 200){
+                //navigate to login page
+                navigate('/login');
+            }
+            else{
+                console.log(response.statusText);
+            }
+
+
 
         }catch(error){
             console.log(error)
